@@ -5,11 +5,17 @@
  */
 package wsgwas;
 
-import javax.jws.WebService;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import snpBasicStatc.SNP;
-import snpBasicStatcPedFiles.ProcesarEstructuraPed;
+import javax.jws.WebService;
+import org.json.JSONArray;
+import snpBasicStatcPedFiles.PruebaLeerArchivo;
+//import snpBasicStatc.SNP;
+//import snpBasicStatcPedFiles.ProcesarEstructuraPed;
 
 /**
  *
@@ -17,7 +23,7 @@ import snpBasicStatcPedFiles.ProcesarEstructuraPed;
  */
 @WebService(serviceName = "WSGWAS")
 public class WSGWAS {
-    SNP snpbasico;
+    //SNP snpbasico;
 
     /**
      * This is a sample web service operation
@@ -25,37 +31,25 @@ public class WSGWAS {
     
     public WSGWAS()
     {
-        snpbasico = new SNP();
+        //snpbasico = new SNP();
     }
 
-    /*
-    @WebMethod(operationName = "ooddRatios")
-    public double oddRatios(@WebParam(name = "dato1") int dato1, @WebParam(name = "dato2") int dato2, @WebParam(name = "dato3") int dato3, @WebParam(name = "dato4") int dato4) {
-        return snpbasico.oddRatio(dato1,dato2,dato3,dato4);
-    }
-    
-    public double allelicFrecuenciasCountAllel_A(@WebParam(name = "genAA") int genAA, @WebParam(name = "GenAa") int GenAa) 
-    {
-        return 2*genAA+GenAa;
-    }
-    public double allelicFrecuenciasCountAllel_a(@WebParam(name = "genaa") int genaa, @WebParam(name = "GenAa") int GenAa) 
-    {
-        return 2*genaa+GenAa;
-    }
-    */
     @WebMethod(operationName = "procesarArchivoPedWS")
     public String procesarArchivoPedWS(@WebParam(name = "archivo") String archivo){
-        System.out.println( "Archivo Cargado en el servidor: " + archivo );
-        ProcesarEstructuraPed procesarEstructuraPed = new ProcesarEstructuraPed();
-        /*
-        public String procesarArchivoPedWS( String archivo ){
-            FuncionesPed funciones=new FuncionesPed(); 
-            ArrayList <String> textoArchivo = funciones.leer_Archivo( archivo );
-            String estructuraArchivo = funciones.llenar_Estructura(textoArchivo);
-            return estructuraArchivo;
-        }
-        */        
-        return procesarEstructuraPed.procesarArchivoPedWS( archivo );
+        
+        DateFormat timeFormat = new SimpleDateFormat( "HH:mm:ss" );
+        
+        System.out.println( "\n" + timeFormat.format( Calendar.getInstance().getTime() ) + " *************Archivo Cargado en el servidor: \n"  + archivo + " *************\n" );
+        long inicio = System.currentTimeMillis();
+        
+        PruebaLeerArchivo pruebaLeerArchivo = new PruebaLeerArchivo();
+        JSONArray snpJsonArray = pruebaLeerArchivo.procesar( archivo );
+        System.out.println("RESULTADO: " + snpJsonArray);
+        
+        long fin = System.currentTimeMillis();
+        System.out.println( timeFormat.format( Calendar.getInstance().getTime() ) + "\tTiempo Total ejecucion servidor: " + (fin - inicio) );        
+        
+        return snpJsonArray.toString();
     }
     
 }
