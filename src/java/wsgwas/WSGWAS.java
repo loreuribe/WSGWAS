@@ -5,6 +5,7 @@
  */
 package wsgwas;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,14 +43,18 @@ public class WSGWAS {
         System.out.println( "\n" + timeFormat.format( Calendar.getInstance().getTime() ) + " *************Archivo Cargado en el servidor: \n"  + archivo + " *************\n" );
         long inicio = System.currentTimeMillis();
         
-        PruebaLeerArchivo pruebaLeerArchivo = new PruebaLeerArchivo();
-        JSONArray snpJsonArray = pruebaLeerArchivo.procesar( archivo );
-        System.out.println("RESULTADO: " + snpJsonArray);
         
-        long fin = System.currentTimeMillis();
-        System.out.println( timeFormat.format( Calendar.getInstance().getTime() ) + "\tTiempo Total ejecucion servidor: " + (fin - inicio) );        
+            PruebaLeerArchivo pruebaLeerArchivo = new PruebaLeerArchivo();
+            JSONArray snpJsonArray = pruebaLeerArchivo.procesar( archivo );
+            //System.out.println("RESULTADO: " + snpJsonArray);
         
-        return snpJsonArray.toString();
+            long fin = System.currentTimeMillis();
+            System.out.println( timeFormat.format( Calendar.getInstance().getTime() ) + "\tTiempo Total ejecucion servidor: " + (fin - inicio) );        
+        
+            return snpJsonArray.toString();  
+        
+        
+
     }
     
 }
