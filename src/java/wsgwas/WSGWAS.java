@@ -14,6 +14,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import org.json.JSONArray;
+import org.json.JSONException;
 import snpBasicStatcPedFiles.PruebaLeerArchivo;
 //import snpBasicStatc.SNP;
 //import snpBasicStatcPedFiles.ProcesarEstructuraPed;
@@ -36,22 +37,28 @@ public class WSGWAS {
     }
 
     @WebMethod(operationName = "procesarArchivoPedWS")
-    public String procesarArchivoPedWS(@WebParam(name = "archivo") String archivo){
+    public String procesarArchivoPedWS(@WebParam(name = "archivo") String archivo) throws Exception{
         
         DateFormat timeFormat = new SimpleDateFormat( "HH:mm:ss" );
         
-        System.out.println( "\n" + timeFormat.format( Calendar.getInstance().getTime() ) + " *************Archivo Cargado en el servidor: \n"  + archivo + " *************\n" );
-        long inicio = System.currentTimeMillis();
+        System.out.println( "\n" + timeFormat.format( Calendar.getInstance().getTime() ) + " *************Archivo Cargado en el servidor: "  + archivo + " *************\n" );
+        long inicio = System.currentTimeMillis();        
         
-        
-            PruebaLeerArchivo pruebaLeerArchivo = new PruebaLeerArchivo();
-            JSONArray snpJsonArray = pruebaLeerArchivo.procesar( archivo );
-            //System.out.println("RESULTADO: " + snpJsonArray);
-        
-            long fin = System.currentTimeMillis();
-            System.out.println( timeFormat.format( Calendar.getInstance().getTime() ) + "\tTiempo Total ejecucion servidor: " + (fin - inicio) );        
-        
-            return snpJsonArray.toString();  
+        PruebaLeerArchivo pruebaLeerArchivo = new PruebaLeerArchivo();
+        JSONArray snpJsonArray = pruebaLeerArchivo.procesar( archivo );
+        System.out.println( "Tamaño snpJsonArray: " + snpJsonArray.length() );
+        try{
+            System.out.println( "Resultado Primer SNP: " + snpJsonArray.getJSONObject(0).toString() );
+            System.out.println( "Resultado Primer SNP: " + snpJsonArray.getJSONObject( snpJsonArray.length() - 1 ).toString() );
+        }
+        catch ( JSONException error ){
+            error.printStackTrace();
+            throw new Exception( error.getMessage() );
+        }
+        long fin = System.currentTimeMillis();
+        System.out.println( timeFormat.format( Calendar.getInstance().getTime() ) + " *************Tiempo Total ejecucion servidor: " + ((fin - inicio)/1000.0) + " Segs*************" );        
+
+        return snpJsonArray.toString();  
         
         
 
