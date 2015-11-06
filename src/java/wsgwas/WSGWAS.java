@@ -45,7 +45,11 @@ public class WSGWAS {
         long inicio = System.currentTimeMillis();        
         
         PruebaLeerArchivo pruebaLeerArchivo = new PruebaLeerArchivo();
+        String rutaSnpJsonArray = pruebaLeerArchivo.procesar( archivo );
+        return rutaSnpJsonArray;
+        /*
         JSONArray snpJsonArray = pruebaLeerArchivo.procesar( archivo );
+        
         System.out.println( "Tamaño snpJsonArray: " + snpJsonArray.length() );
         try{
             System.out.println( "Resultado Primer SNP: " + snpJsonArray.getJSONObject(0).toString() );
@@ -56,12 +60,10 @@ public class WSGWAS {
             throw new Exception( error.getMessage() );
         }
         long fin = System.currentTimeMillis();
-        System.out.println( timeFormat.format( Calendar.getInstance().getTime() ) + " *************Tiempo Total ejecucion servidor: " + ((fin - inicio)/1000.0) + " Segs*************" );        
+        System.out.println( timeFormat.format( Calendar.getInstance().getTime() ) + " *************Tiempo Total ejecucion servidor: " + ((fin - inicio)/1000.0) + " Segs************* \n\n" );        
 
         return snpJsonArray.toString();  
-        
-        
-
+        */
     }
     
 }
